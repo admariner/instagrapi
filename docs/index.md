@@ -35,6 +35,9 @@ For any other languages (e.g. C++, C#, F#, D, [Golang](https://github.com/subzer
 6. [Like](https://subzeroid.github.io/instagrapi/usage-guide/media.html), [Follow](https://subzeroid.github.io/instagrapi/usage-guide/user.html), [Edit account](https://subzeroid.github.io/instagrapi/usage-guide/account.html) (Bio) and much more else
 7. [Insights](https://subzeroid.github.io/instagrapi/usage-guide/insight.html) by account, posts and stories
 8. [Build stories](https://subzeroid.github.io/instagrapi/usage-guide/story.html) with custom background, font animation, link stickers, and mentions
+9. App-side discovery: `chaining`, `fetch_suggestion_details`, `discover_recommended_accounts_for_category_v1`, `user_stream_*`, `user_web_profile_info_v1`
+10. v2 search SERPs ([Search](https://subzeroid.github.io/instagrapi/usage-guide/search.html)): `fbsearch_accounts_v2`, `fbsearch_reels_v2`, `fbsearch_topsearch_v2`, `fbsearch_typehead`
+11. Alternative media-info path `media_info_v2` for ad-tagged / sponsored media
 
 ## Example
 
@@ -126,6 +129,7 @@ To learn more about the various ways `instagrapi` can be used, read the [Usage G
   * [`DirectMessage`](usage-guide/direct.md) - Message in Direct Message
   * [`Insight`](usage-guide/insight.md) - Insights for a post
   * [`Track`](usage-guide/track.md) - Music track (for Reels/Clips)
+* [Search](usage-guide/search.md) — v2 SERP endpoints (`fbsearch_accounts_v2`, `fbsearch_reels_v2`, `fbsearch_topsearch_v2`, `fbsearch_typehead`) and existing search helpers
 * [Best Practices](usage-guide/best-practices.md)
 * [Development Guide](development-guide.md)
 * [Handle Exceptions](usage-guide/handle_exception.md)
