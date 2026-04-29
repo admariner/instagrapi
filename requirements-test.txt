@@ -1,7 +1,7 @@
 flake8==7.3.0
 Pillow==12.2.0
 isort==7.0.0
-bandit==1.8.6
+bandit==1.9.4
 pytest-xdist==3.8.0
 pytest==9.0.3
 mike==2.2.0
