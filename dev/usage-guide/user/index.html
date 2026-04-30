@@ -725,6 +725,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../story/" class="md-nav__link">
         
   
@@ -1100,6 +1128,26 @@
 <td>bool</td>
 <td>Remove from Close Friends List</td>
 </tr>
+<tr>
+<td>chaining(user_id: str)</td>
+<td>dict</td>
+<td>Suggested users for a profile (<code>discover/chaining/</code>) — same surface as the app's "Suggested for you" carousel</td>
+</tr>
+<tr>
+<td>fetch_suggestion_details(user_id: str, chained_ids: str)</td>
+<td>dict</td>
+<td>Expanded social-context fields for chained suggestion ids (<code>discover/fetch_suggestion_details/</code>)</td>
+</tr>
+<tr>
+<td>discover_recommended_accounts_for_category_v1(user_id: str)</td>
+<td>dict</td>
+<td>Business-category-similar accounts: extracts <code>category_id</code> from the target's stream payload, then calls <code>discover/recommended_accounts_for_category/</code></td>
+</tr>
+<tr>
+<td>user_related_profiles_gql(user_id: str)</td>
+<td>List[UserShort]</td>
+<td>Related profiles via public GraphQL <code>edge_chaining</code> (legacy <code>query_hash</code>, gated by IG — prefer <code>chaining</code> for reliability)</td>
+</tr>
 </tbody>
 </table>
 <p>Lookup helpers:</p>
@@ -1121,6 +1169,43 @@
 <td>username_from_user_id_gql(user_id: str)</td>
 <td>str</td>
 <td>Resolve username from user id using the same fallback chain</td>
+</tr>
+</tbody>
+</table>
+<p>Streamed profile fetch (raw payloads, app-side surface):</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_stream_by_id_v1(user_id: str)</td>
+<td>dict</td>
+<td>Streamed profile envelope by pk (<code>users/{user_id}/info_stream/</code>)</td>
+</tr>
+<tr>
+<td>user_stream_by_username_v1(username: str)</td>
+<td>dict</td>
+<td>Streamed profile envelope by username (<code>users/{username}/usernameinfo_stream/</code>)</td>
+</tr>
+<tr>
+<td>user_stream_by_id_flat(user_id: str)</td>
+<td>dict</td>
+<td>Same as <code>_v1</code> but <code>stream_rows[*].user</code> partials merged into a single dict</td>
+</tr>
+<tr>
+<td>user_stream_by_username_flat(username: str)</td>
+<td>dict</td>
+<td>Same as <code>_v1</code> but <code>stream_rows[*].user</code> partials merged into a single dict</td>
+</tr>
+<tr>
+<td>user_web_profile_info_v1(username: str)</td>
+<td>dict</td>
+<td><code>users/web_profile_info/?username=...</code> via the private host (logged-in session, bypasses public-side rate limiting)</td>
 </tr>
 </tbody>
 </table>

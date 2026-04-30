@@ -721,6 +721,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../usage-guide/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../usage-guide/story/" class="md-nav__link">
         
   
@@ -1608,6 +1636,11 @@
 <td>ClientStatusFail</td>
 <td>ClientError</td>
 <td>Occurs when Instagram returns message with status=fail with details</td>
+</tr>
+<tr>
+<td>RelatedProfileRequired</td>
+<td>ClientError</td>
+<td>Raised by <code>user_related_profiles_gql</code> on empty results when caller has set <code>client.num_retry &lt; 4</code> (opt-in retry signal)</td>
 </tr>
 </tbody>
 </table>
