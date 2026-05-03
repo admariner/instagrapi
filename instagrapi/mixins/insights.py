@@ -25,6 +25,9 @@ DATA_ORDERS = (
     "VIDEO_VIEW_COUNT",
     "SAVE_COUNT",
 )
+EMPTY_GRAPHQL_QUERY_PARAM = (
+    ""  # Instagram GraphQL uses this as an empty access_token placeholder.
+)
 
 try:
     from typing import Literal
@@ -100,7 +103,10 @@ class InsightsMixin:
             "timeframe": time_frame,
             "search_base": "USER",
             "is_user": "true",
-            "queryParams": {"access_token": "", "id": self.user_id},
+            "queryParams": {
+                "access_token": EMPTY_GRAPHQL_QUERY_PARAM,
+                "id": self.user_id,
+            },
         }
         while True:
             if cursor:
@@ -163,7 +169,10 @@ class InsightsMixin:
             "activityTab": True,
             "audienceTab": True,
             "contentTab": True,
-            "query_params": {"access_token": "", "id": self.user_id},
+            "query_params": {
+                "access_token": EMPTY_GRAPHQL_QUERY_PARAM,
+                "id": self.user_id,
+            },
         }
 
         result = self.private_request(
@@ -200,7 +209,7 @@ class InsightsMixin:
             "strip_defaults": False,
         }
         query_params = {
-            "query_params": {"access_token": "", "id": media_pk},
+            "query_params": {"access_token": EMPTY_GRAPHQL_QUERY_PARAM, "id": media_pk},
         }
         try:
             result = self.private_request(

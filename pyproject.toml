@@ -67,7 +67,7 @@ test = [
     "flake8==7.3.0",
     "Pillow==12.2.0",
     "isort==7.0.0",
-    "bandit==1.8.6",
+    "bandit==1.9.4",
     "mike==2.2.0",
     # mike implicitly imports pkg_resources from setuptools — see
     # https://github.com/jimporter/mike/issues/148
