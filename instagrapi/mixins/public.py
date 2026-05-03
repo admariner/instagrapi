@@ -404,10 +404,11 @@ class TopSearchesPublicMixin:
     def top_search(self, query):
         """Anonymous IG search request"""
         url = "https://www.instagram.com/web/search/topsearch/"
+        rank = 0.7763938004511706  # Static public web rank value, not a credential.
         params = {
             "context": "blended",
             "query": query,
-            "rank_token": 0.7763938004511706,
+            "rank_token": rank,
             "include_reel": "true",
         }
         response = self.public_request(url, params=params, return_json=True)
