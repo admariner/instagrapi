@@ -3484,6 +3484,105 @@ class UserMixinRegressionTestCase(unittest.TestCase):
         params = private_request.call_args.kwargs["params"]
         self.assertNotIn("max_id", params)
 
+    def test_user_follow_requests_chunk_fetches_pending_users(self):
+        client = self.build_private_client()
+
+        with mock.patch.object(
+            client,
+            "private_request",
+            return_value={
+                "users": [
+                    {
+                        "pk": "42",
+                        "username": "pending",
+                        "full_name": "Pending User",
+                        "profile_pic_url": None,
+                    }
+                ],
+                "next_max_id": "next",
+            },
+        ) as private_request:
+            users, next_max_id = client.user_follow_requests_chunk(max_amount=1)
+
+        self.assertEqual(next_max_id, "next")
+        self.assertEqual(len(users), 1)
+        self.assertEqual(users[0].pk, "42")
+        private_request.assert_called_once_with(
+            "friendships/pending/",
+            params={"count": 1},
+        )
+
+    def test_user_follow_requests_chunk_sends_non_empty_max_id(self):
+        client = self.build_private_client()
+
+        with mock.patch.object(
+            client,
+            "private_request",
+            return_value={"users": [], "next_max_id": None},
+        ) as private_request:
+            client.user_follow_requests_chunk(max_amount=20, max_id="cursor")
+
+        private_request.assert_called_once_with(
+            "friendships/pending/",
+            params={"count": 20, "max_id": "cursor"},
+        )
+
+    def test_user_follow_request_approve_posts_action_data_and_returns_status(self):
+        client = self.build_private_client()
+
+        with mock.patch.object(
+            client,
+            "private_request",
+            return_value={"friendship_status": {"followed_by": True}},
+        ) as private_request:
+            result = client.user_follow_request_approve("42")
+
+        self.assertTrue(result)
+        endpoint, data = private_request.call_args.args
+        self.assertEqual(endpoint, "friendships/approve/42/")
+        self.assertEqual(data["user_id"], "42")
+
+    def test_user_follow_request_decline_posts_action_data_and_returns_status(self):
+        client = self.build_private_client()
+
+        with mock.patch.object(
+            client,
+            "private_request",
+            return_value={"friendship_status": {"followed_by": False}},
+        ) as private_request:
+            result = client.user_follow_request_decline("42")
+
+        self.assertTrue(result)
+        endpoint, data = private_request.call_args.args
+        self.assertEqual(endpoint, "friendships/ignore/42/")
+        self.assertEqual(data["user_id"], "42")
+
+    def test_user_follow_requests_approve_batches_results(self):
+        client = self.build_private_client()
+
+        with mock.patch.object(
+            client,
+            "user_follow_request_approve",
+            side_effect=[True, False],
+        ) as approve:
+            result = client.user_follow_requests_approve(["1", "2"])
+
+        self.assertEqual(result, {"1": True, "2": False})
+        approve.assert_has_calls([mock.call("1"), mock.call("2")])
+
+    def test_user_follow_requests_decline_batches_results(self):
+        client = self.build_private_client()
+
+        with mock.patch.object(
+            client,
+            "user_follow_request_decline",
+            side_effect=[False, True],
+        ) as decline:
+            result = client.user_follow_requests_decline(["1", "2"])
+
+        self.assertEqual(result, {"1": False, "2": True})
+        decline.assert_has_calls([mock.call("1"), mock.call("2")])
+
     def test_chaining_sends_expected_params_and_returns_payload(self):
         client = Client()
         expected = {"users": [{"pk": "9", "username": "suggested"}]}

@@ -993,6 +993,142 @@ class UserMixin:
             followers = dict(list(followers.items())[:amount])
         return followers
 
+    def user_follow_requests_chunk(
+        self, max_amount: int = 0, max_id: str = ""
+    ) -> Tuple[List[UserShort], str]:
+        """
+        Get pending incoming follow requests by Private Mobile API
+
+        Parameters
+        ----------
+        max_amount: int, optional
+            Maximum number of follow requests to return, default is 0 - Inf
+        max_id: str, optional
+            Cursor for the next chunk
+
+        Returns
+        -------
+        Tuple[List[UserShort], str]
+            List of UserShort objects and max_id cursor
+        """
+        assert self.user_id, "Login required"
+        users = []
+        unique_set = set()
+        while True:
+            params = {"count": max_amount or MAX_USER_COUNT}
+            if max_id:
+                params["max_id"] = max_id
+            result = self.private_request("friendships/pending/", params=params)
+            for user in result.get("users", []):
+                user = extract_user_short(user)
+                if user.pk in unique_set:
+                    continue
+                unique_set.add(user.pk)
+                users.append(user)
+            max_id = result.get("next_max_id")
+            if not max_id or (max_amount and len(users) >= max_amount):
+                break
+        return users, max_id
+
+    def user_follow_requests(self, amount: int = 0) -> List[UserShort]:
+        """
+        Get pending incoming follow requests by Private Mobile API
+
+        Parameters
+        ----------
+        amount: int, optional
+            Maximum number of follow requests to return, default is 0 - Inf
+
+        Returns
+        -------
+        List[UserShort]
+            List of UserShort objects
+        """
+        users, _ = self.user_follow_requests_chunk(amount)
+        if amount:
+            users = users[:amount]
+        return users
+
+    def user_follow_request_approve(self, user_id: str) -> bool:
+        """
+        Approve a pending incoming follow request
+
+        Parameters
+        ----------
+        user_id: str
+
+        Returns
+        -------
+        bool
+            A boolean value
+        """
+        assert self.user_id, "Login required"
+        user_id = str(user_id)
+        data = self.with_action_data({"user_id": user_id})
+        result = self.private_request(f"friendships/approve/{user_id}/", data)
+        friendship_status = result.get("friendship_status", {})
+        if "followed_by" in friendship_status:
+            return friendship_status["followed_by"] is True
+        return result.get("status") == "ok"
+
+    def user_follow_request_decline(self, user_id: str) -> bool:
+        """
+        Decline a pending incoming follow request
+
+        Parameters
+        ----------
+        user_id: str
+
+        Returns
+        -------
+        bool
+            A boolean value
+        """
+        assert self.user_id, "Login required"
+        user_id = str(user_id)
+        data = self.with_action_data({"user_id": user_id})
+        result = self.private_request(f"friendships/ignore/{user_id}/", data)
+        friendship_status = result.get("friendship_status", {})
+        if "followed_by" in friendship_status:
+            return friendship_status["followed_by"] is False
+        return result.get("status") == "ok"
+
+    def user_follow_requests_approve(self, user_ids: List[str]) -> Dict[str, bool]:
+        """
+        Approve pending incoming follow requests
+
+        Parameters
+        ----------
+        user_ids: List[str]
+
+        Returns
+        -------
+        Dict[str, bool]
+            Dict of user_id and result
+        """
+        return {
+            str(user_id): self.user_follow_request_approve(str(user_id))
+            for user_id in user_ids
+        }
+
+    def user_follow_requests_decline(self, user_ids: List[str]) -> Dict[str, bool]:
+        """
+        Decline pending incoming follow requests
+
+        Parameters
+        ----------
+        user_ids: List[str]
+
+        Returns
+        -------
+        Dict[str, bool]
+            Dict of user_id and result
+        """
+        return {
+            str(user_id): self.user_follow_request_decline(str(user_id))
+            for user_id in user_ids
+        }
+
     def user_follow(self, user_id: str) -> bool:
         """
         Follow a user
