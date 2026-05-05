@@ -7,11 +7,11 @@ import tempfile
 import time
 import types
 import unittest
-from unittest import mock
-from unittest.mock import Mock
 from datetime import datetime, timedelta
 from json.decoder import JSONDecodeError
 from pathlib import Path
+from unittest import mock
+from unittest.mock import Mock
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import requests
@@ -19,12 +19,6 @@ from pydantic import ValidationError
 from requests.exceptions import RetryError
 
 from instagrapi import Client
-from instagrapi.extractors import (
-    extract_direct_message,
-    extract_direct_thread,
-    extract_resource_v1,
-    extract_story_v1,
-)
 from instagrapi.exceptions import (
     AlbumConfigureError,
     BadCredentials,
@@ -32,16 +26,16 @@ from instagrapi.exceptions import (
     ChallengeRedirection,
     ChallengeRequired,
     ChallengeUnknownStep,
-    ClipConfigureError,
     ClientConnectionError,
     ClientGraphqlError,
-    ClientUnauthorizedError,
     ClientThrottledError,
+    ClientUnauthorizedError,
+    ClipConfigureError,
     DirectThreadNotFound,
     IGTVConfigureError,
-    PleaseWaitFewMinutes,
     PhotoConfigureError,
     PhotoConfigureStoryError,
+    PleaseWaitFewMinutes,
     PrivateError,
     RecaptchaChallengeForm,
     ReloginAttemptExceeded,
@@ -51,6 +45,12 @@ from instagrapi.exceptions import (
     UnknownError,
     VideoConfigureError,
     VideoConfigureStoryError,
+)
+from instagrapi.extractors import (
+    extract_direct_message,
+    extract_direct_thread,
+    extract_resource_v1,
+    extract_story_v1,
 )
 from instagrapi.mixins.user import UserMixin
 from instagrapi.story import StoryBuilder
@@ -994,6 +994,45 @@ class HardeningRegressionTestCase(unittest.TestCase):
         self.assertEqual(len(medias), 1)
         self.assertEqual(medias[0].pk, "1")
         self.assertIsNone(next_max_id)
+
+    def test_location_medias_v1_paginates_until_amount(self):
+        client = Client()
+
+        client.location_medias_v1_chunk = Mock(
+            side_effect=[
+                (["m1", "m2"], "cursor-2"),
+                (["m3", "m4"], "cursor-3"),
+                (["m5"], None),
+            ]
+        )
+
+        medias = client.location_medias_v1(123, amount=3, tab_key="recent")
+
+        self.assertEqual(medias, ["m1", "m2", "m3"])
+        self.assertEqual(client.location_medias_v1_chunk.call_count, 2)
+        self.assertEqual(
+            client.location_medias_v1_chunk.call_args_list[0].args,
+            (123, 3, "recent", None),
+        )
+        self.assertEqual(
+            client.location_medias_v1_chunk.call_args_list[1].args,
+            (123, 3, "recent", "cursor-2"),
+        )
+
+    def test_location_medias_v1_amount_zero_paginates_until_cursor_exhausted(self):
+        client = Client()
+
+        client.location_medias_v1_chunk = Mock(
+            side_effect=[
+                (["m1"], "cursor-2"),
+                (["m2"], None),
+            ]
+        )
+
+        medias = client.location_medias_v1(123, amount=0, tab_key="recent")
+
+        self.assertEqual(medias, ["m1", "m2"])
+        self.assertEqual(client.location_medias_v1_chunk.call_count, 2)
 
 
 class ChallengeRegressionTestCase(unittest.TestCase):

@@ -395,7 +395,17 @@ class LocationMixin:
         assert (
             tab_key in tab_keys_v1
         ), f'You must specify one of the options for "tab_key" {tab_keys_a1}'
-        medias, _ = self.location_medias_v1_chunk(location_pk, amount, tab_key)
+        medias = []
+        max_id = None
+        while True:
+            items, max_id = self.location_medias_v1_chunk(
+                location_pk, amount, tab_key, max_id
+            )
+            medias.extend(items)
+            if amount and len(medias) >= amount:
+                break
+            if not max_id:
+                break
         if amount:
             medias = medias[:amount]
         return medias
