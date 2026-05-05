@@ -146,6 +146,8 @@ Anonymous/public web paths are best treated as opportunistic rather than guarant
 
 ## Documentation And Support
 
+API reference and full usage guide live at [subzeroid.github.io/instagrapi](https://subzeroid.github.io/instagrapi/):
+
 * [Documentation index](https://subzeroid.github.io/instagrapi/)
 * [Getting Started](https://subzeroid.github.io/instagrapi/getting-started.html)
 * [Usage Guide](https://subzeroid.github.io/instagrapi/usage-guide/fundamentals.html)
@@ -156,6 +158,26 @@ Anonymous/public web paths are best treated as opportunistic rather than guarant
 * Support chat in Telegram: https://t.me/aiograpi_support — the previous `@instagrapi` group was restricted by Meta and is no longer maintained
 
 For other languages, consider [instagrapi-rest](https://github.com/subzeroid/instagrapi-rest). For async Python, see [aiograpi](https://github.com/subzeroid/aiograpi).
+
+## Tutorials
+
+Hands-on guides for real instagrapi work — login flows, sessions, proxies, scraping, posting, error handling — live at [instagrapi.com/guides](https://instagrapi.com/guides/):
+
+* [Instagram Private API in Python](https://instagrapi.com/guides/instagram-private-api-python/) — pillar walkthrough: login, sessions, fetching, posting
+* [2FA and `challenge_required`](https://instagrapi.com/guides/instagrapi-2fa-challenge/)
+* [Session persistence: file, Redis, and Postgres patterns](https://instagrapi.com/guides/instagrapi-session-persistence/)
+* [Configuring proxies (HTTP, SOCKS5, residential)](https://instagrapi.com/guides/instagrapi-proxy-setup/)
+* [Instagram scraper in Python: a working setup](https://instagrapi.com/guides/instagram-scraper-python/)
+* [Upload a photo from Python](https://instagrapi.com/guides/instagrapi-upload-photo-python/)
+* [Download Instagram stories](https://instagrapi.com/guides/instagrapi-download-stories-python/)
+* [Common errors reference](https://instagrapi.com/guides/errors/) — `challenge_required`, `login_required`, `please_wait_a_few_minutes`, `feedback_required`, `proxy_address_is_blocked`
+* [Framework integrations](https://instagrapi.com/guides/integrations/) — Django, FastAPI, Celery, Docker, AWS Lambda
+
+Comparing instagrapi to other tools:
+
+* [instagrapi vs Instaloader](https://instagrapi.com/compare/instaloader/) — download-only vs authenticated automation
+* [instagrapi vs aiograpi](https://instagrapi.com/guides/instagrapi-vs-aiograpi/) — sync or async
+* [Instagram API libraries by language](https://instagrapi.com/guides/instagram-api-libraries-by-language/) — what's actually maintained in 2026
 
 
 <details>

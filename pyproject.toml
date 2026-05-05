@@ -59,8 +59,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/subzeroid/instagrapi"
+Homepage = "https://instagrapi.com"
 Repository = "https://github.com/subzeroid/instagrapi"
+Documentation = "https://subzeroid.github.io/instagrapi/"
+Issues = "https://github.com/subzeroid/instagrapi/issues"
+Guides = "https://instagrapi.com/guides/"
 
 [project.optional-dependencies]
 test = [
