@@ -1448,6 +1448,11 @@
 <td>Return users who liked this post</td>
 </tr>
 <tr>
+<td>archive_medias(amount: int = 0)</td>
+<td>List[Media]</td>
+<td>Get archived media from your account</td>
+</tr>
+<tr>
 <td>media_archive(media_id: str)</td>
 <td>bool</td>
 <td>Archive media</td>
@@ -1466,6 +1471,16 @@
 <td>media_unpin(media_pk: str)</td>
 <td>bool</td>
 <td>Unpin media from profile</td>
+</tr>
+<tr>
+<td>clip_pin(media_pk: str)</td>
+<td>bool</td>
+<td>Pin Reel to the Reels tab/profile Reels grid</td>
+</tr>
+<tr>
+<td>clip_unpin(media_pk: str)</td>
+<td>bool</td>
+<td>Unpin Reel from the Reels tab/profile Reels grid</td>
 </tr>
 <tr>
 <td>media_create_livestream(title: str = "Instagram Live")</td>
@@ -1579,6 +1594,16 @@
 <td>List[Media]</td>
 <td>Get media where a user is tagged via private mobile API</td>
 </tr>
+<tr>
+<td>archive_medias_v1(amount: int = 0)</td>
+<td>List[Media]</td>
+<td>Get archived media via private mobile API</td>
+</tr>
+<tr>
+<td>archive_medias_paginated_v1(amount: int = 0, end_cursor="")</td>
+<td>Tuple[List[Media], str]</td>
+<td>Get one private API page of archived media</td>
+</tr>
 </tbody>
 </table>
 <h3 id="example">Example:</h3>
@@ -1659,6 +1684,9 @@
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_archive</span><span class="p">(</span><span class="s1">&#39;2155832952940083788_1903424587&#39;</span><span class="p">)</span>
 <span class="kc">True</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">media</span><span class="o">.</span><span class="n">pk</span> <span class="k">for</span> <span class="n">media</span> <span class="ow">in</span> <span class="n">cl</span><span class="o">.</span><span class="n">archive_medias</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">5</span><span class="p">)]</span>
+<span class="p">[</span><span class="s1">&#39;2155832952940083788&#39;</span><span class="p">]</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_unarchive</span><span class="p">(</span><span class="s1">&#39;2155832952940083788_1903424587&#39;</span><span class="p">)</span>
 <span class="kc">True</span>
@@ -1864,6 +1892,16 @@
 <td>Media</td>
 <td>Upload Reels Clip as reel with music metadata</td>
 </tr>
+<tr>
+<td>photo_upload_with_music(path: Path, caption: str, track: Track or dict, extra_data: Dict = {})</td>
+<td>Media</td>
+<td>Upload feed photo with music metadata</td>
+</tr>
+<tr>
+<td>album_upload_with_music(paths: List[Path], caption: str, track: Track or dict, extra_data: Dict = {})</td>
+<td>Media</td>
+<td>Upload feed album/carousel with music metadata</td>
+</tr>
 </tbody>
 </table>
 <p>In <code>extra_data</code>, you can pass additional media settings, for example:</p>
@@ -1938,6 +1976,24 @@
  <span class="s1">&#39;video_duration&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
  <span class="s1">&#39;resources&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+</code></pre></div>
+<p>Upload a photo or carousel with feed music:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">music</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">music_in_feed_audio_browser</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">track</span> <span class="o">=</span> <span class="n">music</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;playlist&quot;</span><span class="p">][</span><span class="s2">&quot;preview_items&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;track&quot;</span><span class="p">]</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">photo</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">photo_upload_with_music</span><span class="p">(</span>
+    <span class="s2">&quot;/app/image.jpg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Photo with music&quot;</span><span class="p">,</span>
+    <span class="n">track</span><span class="p">,</span>
+    <span class="n">alacorn_session_id</span><span class="o">=</span><span class="n">music</span><span class="p">[</span><span class="s2">&quot;alacorn_session_id&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">album</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">album_upload_with_music</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;/app/image.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;/app/image2.jpg&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Carousel with music&quot;</span><span class="p">,</span>
+    <span class="n">track</span><span class="p">,</span>
+    <span class="n">alacorn_session_id</span><span class="o">=</span><span class="n">music</span><span class="p">[</span><span class="s2">&quot;alacorn_session_id&quot;</span><span class="p">],</span>
+<span class="p">)</span>
 </code></pre></div>
 <p>Now let's mention users (Usertag) and location:</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
