@@ -1403,6 +1403,11 @@
 <td>Get media where a user is tagged</td>
 </tr>
 <tr>
+<td>usertag_medias_paginated(user_id: str, amount: int = 0, end_cursor: str = "")</td>
+<td>Tuple[List[Media], str]</td>
+<td>Get one page of media where a user is tagged and next cursor</td>
+</tr>
+<tr>
 <td>media_info(media_pk: str, use_cache: bool = True)</td>
 <td>Media</td>
 <td>Return media info</td>
@@ -1590,9 +1595,19 @@
 <td>Get media where a user is tagged via public GraphQL API</td>
 </tr>
 <tr>
+<td>usertag_medias_paginated_gql(user_id: str, amount: int = 0, sleep: int = 2, end_cursor=None)</td>
+<td>Tuple[List[Media], str]</td>
+<td>Get one public GraphQL page of media where a user is tagged</td>
+</tr>
+<tr>
 <td>usertag_medias_v1(user_id: str, amount: int = 0)</td>
 <td>List[Media]</td>
 <td>Get media where a user is tagged via private mobile API</td>
+</tr>
+<tr>
+<td>usertag_medias_paginated_v1(user_id: str, amount: int = 0, end_cursor="")</td>
+<td>Tuple[List[Media], str]</td>
+<td>Get one private API page of media where a user is tagged</td>
 </tr>
 <tr>
 <td>archive_medias_v1(amount: int = 0)</td>
@@ -1747,6 +1762,11 @@
 <span class="p">[</span><span class="s1">&#39;2019-06-05&#39;</span><span class="p">,</span> <span class="s1">&#39;2019-03-23&#39;</span><span class="p">,</span> <span class="s1">&#39;2019-03-23&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-11-15&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-10-16&#39;</span><span class="p">]</span>
 <span class="p">[</span><span class="s1">&#39;2018-10-16&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-10-11&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-10-09&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-10-09&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-08-02&#39;</span><span class="p">]</span>
 
+<span class="c1"># Resume tagged-media fetches from a stored cursor</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tagged</span><span class="p">,</span> <span class="n">end_cursor</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">usertag_medias_paginated</span><span class="p">(</span><span class="mi">1903424587</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">end_cursor</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">next_tagged</span><span class="p">,</span> <span class="n">end_cursor</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">usertag_medias_paginated</span><span class="p">(</span><span class="mi">1903424587</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">end_cursor</span><span class="o">=</span><span class="n">end_cursor</span><span class="p">)</span>
+
 <span class="o">&gt;&gt;&gt;</span> <span class="n">media_id</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_id</span><span class="p">(</span><span class="mi">1787135824035452364</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_like</span><span class="p">(</span><span class="n">media_id</span><span class="p">)</span>
 <span class="kc">True</span>
@@ -1883,9 +1903,9 @@
 <td>Upload IGTV (Support MP4 files)</td>
 </tr>
 <tr>
-<td>clip_upload(path: Path, caption: str, thumbnail: Path, usertags: List[Usertag], location: Location, extra_data: Dict = {})</td>
+<td>clip_upload(path: Path, caption: str, thumbnail: Path, usertags: List[Usertag], location: Location, extra_data: Dict = {}, trial: bool = False, trial_graduation_strategy: str = "manual")</td>
 <td>Media</td>
-<td>Upload Reels Clip (Support MP4 files)</td>
+<td>Upload Reels Clip (Support MP4 files). Set <code>trial=True</code> to publish a Trial Reel on eligible accounts</td>
 </tr>
 <tr>
 <td>clip_upload_as_reel_with_music(path: Path, caption: str, track: Track, extra_data: Dict = {})</td>
@@ -1936,6 +1956,7 @@
 </tr>
 </tbody>
 </table>
+<p>Trial Reels are available only for accounts where Instagram has enabled the feature. When <code>trial=True</code>, <code>clip_upload</code> sends <code>trial_params={"graduation_strategy": "manual"}</code> by default and disables feed preview for the upload.</p>
 <h3 id="example_2">Example:</h3>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
@@ -1950,6 +1971,12 @@
         <span class="s2">&quot;like_and_view_counts_disabled&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
         <span class="s2">&quot;disable_comments&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">trial_reel</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">clip_upload</span><span class="p">(</span>
+    <span class="s2">&quot;/app/reel.mp4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Trying a new Reel format&quot;</span><span class="p">,</span>
+    <span class="n">trial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
