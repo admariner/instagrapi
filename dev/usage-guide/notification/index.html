@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://subzeroid.github.io/instagrapi/dev/usage-guide/insight/">
+        <link rel="canonical" href="https://subzeroid.github.io/instagrapi/dev/usage-guide/notification/">
       
       
-        <link rel="prev" href="../highlight/">
+        <link rel="prev" href="../media/">
       
       
-        <link rel="next" href="../location/">
+        <link rel="next" href="../notes/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>Insight - instagrapi Documentation</title>
+        <title>Notification - instagrapi Documentation</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#insights" class="md-skip">
+        <a href="#notification" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Insight
+              Notification
             
           </span>
         </div>
@@ -694,19 +694,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../insight/" class="md-nav__link">
         
   
   
@@ -722,7 +713,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -788,10 +778,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../notification/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -807,6 +806,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -1190,14 +1190,8 @@
   
 
 
-<h1 id="insights">Insights</h1>
-<p>Get business/professional account statistics. Common arguments:</p>
-<ul>
-<li><code>post_type</code> - Media type: "ALL", "CAROUSEL_V2", "IMAGE", "SHOPPING", "VIDEO".</li>
-<li><code>time_frame</code> - Time frame for media publishing date: "ONE_WEEK", "ONE_MONTH", "THREE_MONTHS", "SIX_MONTHS", "ONE_YEAR", "TWO_YEARS".</li>
-<li><code>data_ordering</code> - Data ordering in instagram response: "REACH_COUNT", "LIKE_COUNT", "FOLLOW", "SHARE_COUNT", "BIO_LINK_CLICK", "COMMENT_COUNT", "IMPRESSION_COUNT", "PROFILE_VIEW", "VIDEO_VIEW_COUNT", "SAVE_COUNT".</li>
-</ul>
-<p>These arguments are exposed as <code>POST_TYPE</code>, <code>TIME_FRAME</code>, and <code>DATA_ORDERING</code> Literal aliases.</p>
+<h1 id="notification">Notification</h1>
+<p>Manage notification settings for the authenticated account.</p>
 <table>
 <thead>
 <tr>
@@ -1208,41 +1202,92 @@
 </thead>
 <tbody>
 <tr>
-<td>insights_media_feed_all(post_type: POST_TYPE = "ALL", time_frame: TIME_FRAME = "TWO_YEARS", data_ordering: DATA_ORDERING = "REACH_COUNT", count: int = 0, sleep: int = 2)</td>
-<td>List[Dict]</td>
-<td>Return feed media edges with insight stats and pagination</td>
+<td>notification_settings(content_type: NotificationContentType, setting_value: NotificationSettingValue)</td>
+<td>bool</td>
+<td>Low-level notification setting helper</td>
 </tr>
 <tr>
-<td>insights_account()</td>
-<td>Dict</td>
-<td>Get account-level insights (activity, audience, content tabs)</td>
+<td>notification_disable()</td>
+<td>bool</td>
+<td>Disable all supported account notifications</td>
 </tr>
 <tr>
-<td>insights_media(media_pk: int)</td>
-<td>Dict</td>
-<td>Get insights for a single media object</td>
+<td>notification_mute_all(setting_value: MUTE_ALL = "8_hour")</td>
+<td>bool</td>
+<td>Mute all notifications for a fixed period</td>
+</tr>
+<tr>
+<td>notification_likes(setting_value: SETTING_VALUE = "off")</td>
+<td>bool</td>
+<td>Manage likes notifications</td>
+</tr>
+<tr>
+<td>notification_comments(setting_value: SETTING_VALUE = "off")</td>
+<td>bool</td>
+<td>Manage comment notifications</td>
+</tr>
+<tr>
+<td>notification_direct_share_activity(setting_value: SETTING_VALUE = "off")</td>
+<td>bool</td>
+<td>Manage Direct share activity notifications</td>
+</tr>
+<tr>
+<td>notification_login(setting_value: SETTING_VALUE = "off")</td>
+<td>bool</td>
+<td>Manage login notifications</td>
 </tr>
 </tbody>
 </table>
+<p><code>NotificationContentType</code> is a <code>Literal</code> covering the known helper-backed
+notification categories:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi.mixins.notification</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotificationContentType</span>
+</code></pre></div>
+<p>Available values are:</p>
+<div class="highlight"><pre><span></span><code><span class="s2">&quot;mute_all&quot;</span>
+<span class="s2">&quot;likes&quot;</span>
+<span class="s2">&quot;like_and_comment_on_photo_user_tagged&quot;</span>
+<span class="s2">&quot;user_tagged&quot;</span>
+<span class="s2">&quot;comments&quot;</span>
+<span class="s2">&quot;comment_likes&quot;</span>
+<span class="s2">&quot;first_post&quot;</span>
+<span class="s2">&quot;new_follower&quot;</span>
+<span class="s2">&quot;follow_request_accepted&quot;</span>
+<span class="s2">&quot;connection_notification&quot;</span>
+<span class="s2">&quot;tagged_in_bio&quot;</span>
+<span class="s2">&quot;pending_direct_share&quot;</span>
+<span class="s2">&quot;direct_share_activity&quot;</span>
+<span class="s2">&quot;direct_group_requests&quot;</span>
+<span class="s2">&quot;video_call&quot;</span>
+<span class="s2">&quot;rooms&quot;</span>
+<span class="s2">&quot;live_broadcast&quot;</span>
+<span class="s2">&quot;felix_upload_result&quot;</span>
+<span class="s2">&quot;view_count&quot;</span>
+<span class="s2">&quot;fundraiser_creator&quot;</span>
+<span class="s2">&quot;fundraiser_supporter&quot;</span>
+<span class="s2">&quot;notification_reminders&quot;</span>
+<span class="s2">&quot;announcements&quot;</span>
+<span class="s2">&quot;report_updated&quot;</span>
+<span class="s2">&quot;login_notification&quot;</span>
+</code></pre></div>
+<p>Option values are exposed as public aliases:</p>
+<div class="highlight"><pre><span></span><code><span class="n">SETTING_VALUE</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;off&quot;</span><span class="p">,</span> <span class="s2">&quot;following_only&quot;</span><span class="p">,</span> <span class="s2">&quot;everyone&quot;</span><span class="p">]</span>
+<span class="n">MUTE_ALL</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;cancel&quot;</span><span class="p">,</span> <span class="s2">&quot;15_minutes&quot;</span><span class="p">,</span> <span class="s2">&quot;1_hour&quot;</span><span class="p">,</span> <span class="s2">&quot;2_hour&quot;</span><span class="p">,</span> <span class="s2">&quot;4_hour&quot;</span><span class="p">,</span> <span class="s2">&quot;8_hour&quot;</span><span class="p">]</span>
+<span class="n">NotificationSettingValue</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">SETTING_VALUE</span><span class="p">,</span> <span class="n">MUTE_ALL</span><span class="p">]</span>
+</code></pre></div>
+<p><code>SETTING_VALUE</code> is used by the per-category helpers. <code>MUTE_ALL</code> is used by
+<code>notification_mute_all()</code>. <code>NotificationSettingValue</code> is used by the low-level
+<code>notification_settings(...)</code> helper because it can send either a regular
+notification value or a mute-all duration depending on <code>content_type</code>.</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
 <span class="n">cl</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">USERNAME</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">)</span>
 
-<span class="n">cl</span><span class="o">.</span><span class="n">insights_media_feed_all</span><span class="p">(</span><span class="s2">&quot;VIDEO&quot;</span><span class="p">,</span> <span class="s2">&quot;ONE_WEEK&quot;</span><span class="p">,</span> <span class="s2">&quot;LIKE_COUNT&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
-<span class="n">cl</span><span class="o">.</span><span class="n">insights_account</span><span class="p">()</span>
-
-<span class="n">media_pk</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_pk_from_url</span><span class="p">(</span><span class="s1">&#39;https://www.instagram.com/p/CP5h-I1FuPr/&#39;</span><span class="p">)</span>
-<span class="n">cl</span><span class="o">.</span><span class="n">insights_media</span><span class="p">(</span><span class="n">media_pk</span><span class="p">)</span>
+<span class="n">cl</span><span class="o">.</span><span class="n">notification_comments</span><span class="p">(</span><span class="s2">&quot;following_only&quot;</span><span class="p">)</span>
+<span class="n">cl</span><span class="o">.</span><span class="n">notification_settings</span><span class="p">(</span><span class="s2">&quot;likes&quot;</span><span class="p">,</span> <span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">cl</span><span class="o">.</span><span class="n">notification_mute_all</span><span class="p">(</span><span class="s2">&quot;1_hour&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>Notes:</p>
-<ul>
-<li>These methods require an authenticated business/professional account. Personal accounts can raise <code>UserError</code>.</li>
-<li><code>insights_media_feed_all()</code> paginates internally and sleeps between pages; reduce <code>count</code> if you only need a small sample.</li>
-<li><code>insights_media()</code> raises <code>MediaError</code> when Instagram does not return insight data for the requested media.</li>
-<li>If Instagram returns media metadata without <code>inline_insights_node</code>, <code>insights_media()</code> raises <code>MediaError</code> instead of returning partial counts with null insight metrics.</li>
-</ul>
 
 
 

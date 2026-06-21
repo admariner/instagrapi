@@ -781,6 +781,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../notification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../notes/" class="md-nav__link">
         
   
@@ -986,6 +1014,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1002,6 +1048,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#option-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1144,6 +1220,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#option-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1177,7 +1272,7 @@
 </thead>
 <tbody>
 <tr>
-<td>user_followers(user_id: str, amount: int = 0, order: str = None)</td>
+<td>user_followers(user_id: str, amount: int = 0, order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>Dict[int, UserShort]</td>
 <td>Get dict of followers users (amount=0 - fetch all followers). Use <code>order="date_followed_latest"</code> or <code>order="date_followed_earliest"</code> for mobile follower sorting</td>
 </tr>
@@ -1187,7 +1282,7 @@
 <td>Get dict of following users (amount=0 - fetch all)</td>
 </tr>
 <tr>
-<td>iter_user_followers_v1(user_id: str, amount: int = 0, page_size: int = 200, order: str = None)</td>
+<td>iter_user_followers_v1(user_id: str, amount: int = 0, page_size: int = 200, order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>Iterator[UserShort]</td>
 <td>Stream followers from the private/mobile API without building a full dict</td>
 </tr>
@@ -1235,6 +1330,16 @@
 <td>user_unfollow(user_id: str)</td>
 <td>bool</td>
 <td>Unfollow user</td>
+</tr>
+<tr>
+<td>user_block(user_id: str, surface: UserBlockSurface = "profile")</td>
+<td>bool</td>
+<td>Block a user from a profile or Direct thread surface</td>
+</tr>
+<tr>
+<td>user_unblock(user_id: str, surface: UserBlockSurface = "profile")</td>
+<td>bool</td>
+<td>Unblock a user from a profile or Direct thread surface</td>
 </tr>
 <tr>
 <td>user_follow_requests(amount: int = 0)</td>
@@ -1383,6 +1488,31 @@
 </tr>
 </tbody>
 </table>
+<h3 id="option-types">Option types</h3>
+<p>Follower sort orders are exposed as <code>FOLLOWERS_ORDER = Literal["date_followed_latest", "date_followed_earliest"]</code>.
+Pass <code>None</code> to keep Instagram's default follower order.</p>
+<p>User block surfaces are exposed as <code>UserBlockSurface = Literal["profile", "direct_thread_info"]</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Values</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FOLLOWERS_ORDER</code></td>
+<td><code>"date_followed_latest"</code>, <code>"date_followed_earliest"</code></td>
+<td><code>user_followers(order=...)</code>, <code>user_followers_v1(order=...)</code>, <code>iter_user_followers_v1(order=...)</code></td>
+</tr>
+<tr>
+<td><code>UserBlockSurface</code></td>
+<td><code>"profile"</code>, <code>"direct_thread_info"</code></td>
+<td><code>user_block(surface=...)</code>, <code>user_unblock(surface=...)</code></td>
+</tr>
+</tbody>
+</table>
 <p>Lookup helpers:</p>
 <table>
 <thead>
@@ -1468,27 +1598,27 @@
 <td>Get user's followers information by Public Graphql API</td>
 </tr>
 <tr>
-<td>user_followers_v1_chunk(user_id: str, max_amount: int = 0, max_id: str = "", order: str = None)</td>
+<td>user_followers_v1_chunk(user_id: str, max_amount: int = 0, max_id: str = "", order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>Tuple[List[UserShort], str]</td>
 <td>Get user's followers information by Private Mobile API and max_id (cursor). Supports <code>date_followed_latest</code> and <code>date_followed_earliest</code></td>
 </tr>
 <tr>
-<td>user_followers_v1(user_id: str, amount: int = 0, order: str = None)</td>
+<td>user_followers_v1(user_id: str, amount: int = 0, order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>List[UserShort]</td>
 <td>Get user's followers information by Private Mobile API. Supports <code>date_followed_latest</code> and <code>date_followed_earliest</code></td>
 </tr>
 <tr>
-<td>iter_user_followers_v1(user_id: str, amount: int = 0, page_size: int = 200, order: str = None)</td>
+<td>iter_user_followers_v1(user_id: str, amount: int = 0, page_size: int = 200, order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>Iterator[UserShort]</td>
 <td>Stream followers page by page through <code>user_followers_v1_chunk()</code></td>
 </tr>
 <tr>
-<td>user_followers_private_gql_chunk(user_id: str, max_amount: int = 0, max_id: str = None, rank_token: str = None, order: str = None)</td>
+<td>user_followers_private_gql_chunk(user_id: str, max_amount: int = 0, max_id: str = None, rank_token: str = None, order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>Tuple[List[UserShort], str]</td>
 <td>Get user's followers through the private mobile GraphQL <code>FollowersList</code> surface and max_id cursor</td>
 </tr>
 <tr>
-<td>user_followers_private_gql(user_id: str, amount: int = 0, rank_token: str = None, order: str = None)</td>
+<td>user_followers_private_gql(user_id: str, amount: int = 0, rank_token: str = None, order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>List[UserShort]</td>
 <td>Get user's followers through the private mobile GraphQL <code>FollowersList</code> surface</td>
 </tr>
@@ -1533,12 +1663,12 @@
 <td>Resolve username through doc_id search, then fetch profile</td>
 </tr>
 <tr>
-<td>private_graphql_followers_list(user_id: str, rank_token: str, ..., order: str = None)</td>
+<td>private_graphql_followers_list(user_id: str, rank_token: str, ..., order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>dict</td>
 <td>Raw private mobile GraphQL followers list. Supports <code>date_followed_latest</code> and <code>date_followed_earliest</code></td>
 </tr>
 <tr>
-<td>private_graphql_following_list(user_id: str, rank_token: str, ..., order: str = None)</td>
+<td>private_graphql_following_list(user_id: str, rank_token: str, ..., order: Optional[FOLLOWERS_ORDER] = None)</td>
 <td>dict</td>
 <td>Raw private mobile GraphQL following list. Supports mobile <code>order</code> when accepted by Instagram</td>
 </tr>
