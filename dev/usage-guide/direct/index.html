@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1532,11 +1532,7 @@ Fetch the inbox or a known thread and filter Direct messages whose <code>item_ty
 </code></pre></div>
 <p>For one known thread:</p>
 <div class="highlight"><pre><span></span><code><span class="n">messages</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">direct_messages</span><span class="p">(</span><span class="n">thread_id</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">incoming_snaps</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">message</span>
-    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span>
-    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;raven_media&quot;</span> <span class="ow">and</span> <span class="n">message</span><span class="o">.</span><span class="n">visual_media</span>
-<span class="p">]</span>
+<span class="n">incoming_snaps</span> <span class="o">=</span> <span class="p">[</span><span class="n">message</span> <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span> <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;raven_media&quot;</span> <span class="ow">and</span> <span class="n">message</span><span class="o">.</span><span class="n">visual_media</span><span class="p">]</span>
 </code></pre></div>
 <p>Instagram may omit playable media URLs after a disappearing photo or video has
 expired or already been viewed. In that case the message can still appear in the
@@ -1744,7 +1740,7 @@ snaps sent by other users.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

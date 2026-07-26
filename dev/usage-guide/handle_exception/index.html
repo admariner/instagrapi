@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1189,14 +1189,21 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BadPassword</span><span class="p">,</span> <span class="n">ReloginAttemptExceeded</span><span class="p">,</span> <span class="n">ChallengeRequired</span><span class="p">,</span>
-    <span class="n">SelectContactPointRecoveryForm</span><span class="p">,</span> <span class="n">RecaptchaChallengeForm</span><span class="p">,</span>
-    <span class="n">FeedbackRequired</span><span class="p">,</span> <span class="n">PleaseWaitFewMinutes</span><span class="p">,</span> <span class="n">LoginRequired</span><span class="p">,</span>
-    <span class="n">ClientThrottledError</span><span class="p">,</span> <span class="n">DirectMessageRequestsDisabled</span><span class="p">,</span>
+    <span class="n">BadPassword</span><span class="p">,</span>
+    <span class="n">ReloginAttemptExceeded</span><span class="p">,</span>
+    <span class="n">ChallengeRequired</span><span class="p">,</span>
+    <span class="n">SelectContactPointRecoveryForm</span><span class="p">,</span>
+    <span class="n">RecaptchaChallengeForm</span><span class="p">,</span>
+    <span class="n">FeedbackRequired</span><span class="p">,</span>
+    <span class="n">PleaseWaitFewMinutes</span><span class="p">,</span>
+    <span class="n">LoginRequired</span><span class="p">,</span>
+    <span class="n">ClientThrottledError</span><span class="p">,</span>
+    <span class="n">DirectMessageRequestsDisabled</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_value</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">handle_exception</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">Client</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">BadPassword</span><span class="p">):</span>
@@ -1235,6 +1242,7 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">DirectMessageRequestsDisabled</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Recipient does not accept new Direct message requests: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
     <span class="k">raise</span> <span class="n">e</span>
+
 
 <span class="n">cl</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">handle_exception</span> <span class="o">=</span> <span class="n">handle_exception</span>
@@ -1296,7 +1304,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

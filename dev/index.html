@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1443,18 +1443,18 @@ New support group: <a href="https://t.me/aiograpi_support">aiograpi_support</a> 
 <span class="n">cl</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">USERNAME</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">,</span> <span class="n">verification_code</span><span class="o">=</span><span class="s2">&quot;&lt;2FA CODE HERE&gt;&quot;</span><span class="p">)</span>
 
-<span class="n">media_pk</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_pk_from_url</span><span class="p">(</span><span class="s1">&#39;https://www.instagram.com/p/CGgDsi7JQdS/&#39;</span><span class="p">)</span>
+<span class="n">media_pk</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">media_pk_from_url</span><span class="p">(</span><span class="s2">&quot;https://www.instagram.com/p/CGgDsi7JQdS/&quot;</span><span class="p">)</span>
 <span class="n">media_path</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">video_download</span><span class="p">(</span><span class="n">media_pk</span><span class="p">)</span>
-<span class="n">example</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">user_info_by_username</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
-<span class="n">hashtag</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">hashtag_info</span><span class="p">(</span><span class="s1">&#39;dhbastards&#39;</span><span class="p">)</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">user_info_by_username</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+<span class="n">hashtag</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">hashtag_info</span><span class="p">(</span><span class="s2">&quot;dhbastards&quot;</span><span class="p">)</span>
 
 <span class="n">cl</span><span class="o">.</span><span class="n">video_upload_to_story</span><span class="p">(</span>
     <span class="n">media_path</span><span class="p">,</span>
     <span class="s2">&quot;Credits @example&quot;</span><span class="p">,</span>
     <span class="n">mentions</span><span class="o">=</span><span class="p">[</span><span class="n">StoryMention</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">example</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.49892962</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.703125</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.8333333333333334</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.125</span><span class="p">)],</span>
-    <span class="n">links</span><span class="o">=</span><span class="p">[</span><span class="n">StoryLink</span><span class="p">(</span><span class="n">webUri</span><span class="o">=</span><span class="s1">&#39;https://github.com/subzeroid/instagrapi&#39;</span><span class="p">)],</span>
+    <span class="n">links</span><span class="o">=</span><span class="p">[</span><span class="n">StoryLink</span><span class="p">(</span><span class="n">webUri</span><span class="o">=</span><span class="s2">&quot;https://github.com/subzeroid/instagrapi&quot;</span><span class="p">)],</span>
     <span class="n">hashtags</span><span class="o">=</span><span class="p">[</span><span class="n">StoryHashtag</span><span class="p">(</span><span class="n">hashtag</span><span class="o">=</span><span class="n">hashtag</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.23</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.32</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.22</span><span class="p">)],</span>
-    <span class="n">medias</span><span class="o">=</span><span class="p">[</span><span class="n">StoryMedia</span><span class="p">(</span><span class="n">media_pk</span><span class="o">=</span><span class="n">media_pk</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)]</span>
+    <span class="n">medias</span><span class="o">=</span><span class="p">[</span><span class="n">StoryMedia</span><span class="p">(</span><span class="n">media_pk</span><span class="o">=</span><span class="n">media_pk</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)],</span>
 <span class="p">)</span>
 </code></pre></div>
 <h3 id="requests">Requests</h3>
@@ -1572,7 +1572,7 @@ Example (pseudo-code):</p>
       <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
