@@ -1319,6 +1319,7 @@ transport-level retry behavior.</p>
 <p>For public web endpoints that are sensitive to browser TLS fingerprints, you can install the optional curl transport:</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"instagrapi[curl]"</span>
 </code></pre></div>
+<p>The curl extra requires <code>curl-adapter&gt;=1.2.3</code> for compatibility with urllib3 2.8. If an existing environment has an older adapter, upgrade it with <code>pip install --upgrade "curl-adapter&gt;=1.2.3"</code>.</p>
 <p>Then opt in explicitly:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">instagrapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
@@ -1381,6 +1382,7 @@ these numbers as a practical signal, not a guarantee.</p>
 <li><code>curl</code> avoided those <code>429</code> responses in early rounds, then hit <code>401</code> on the same public endpoint;</li>
 <li>both transports hit <code>404</code> on the tested public media info path.</li>
 </ul>
+<p>On September 24, 2026, <code>media_info_gql</code> with <code>public_transport="curl"</code> returned a current public carousel post using a saved session. The default <code>requests</code> transport returned HTML for that GraphQL call. This single-post check is separate from the historical May comparison above; public document IDs and access behavior can change.</p>
 <h2 id="recommendation">Recommendation</h2>
 <p>Use the default <code>requests</code> transport unless you specifically need public web endpoints that are being rate limited or
 blocked by TLS fingerprint checks.</p>
